@@ -32,41 +32,46 @@
          * */
         arrayDiv = [];
 
-        function TextBox(key, data)
+        function Note(key)
         {
             this.key = key;
-            this.data = data;
+            this.data = "hi";
 
             let div = document.createElement("Div");
             div.id = total;
             
-            this.txtbx = document.createElement("TextArea");
+            this.textBox = document.createElement("TextArea");
 
-            this.btn = document.createElement("Button");
-            this.btnName = document.createTextNode("Remove");
-            this.btn.appendChild(this.btnName);
-
+            this.removeButton = document.createElement("Button");
+            this.buttonName = document.createTextNode("Remove");
+            this.removeButton.appendChild(this.buttonName);
             
-            div.appendChild(this.txtbx);
-            div.appendChild(this.btn);
+            div.appendChild(this.textBox);
+            div.appendChild(this.removeButton);
 
             textArea = document.getElementById("textArea");
             textArea.appendChild(div);
 
-            this.btn.addEventListener('click', function()
+            this.removeButton.addEventListener('click', function()
             {
                 div.remove();
                 arrayDiv.pop(div);
+            });
+
+            this.textBox.addEventListener('input', function()
+            {
+                textBoxData = this.value;
+                textBoxIndex = arrayDiv.findIndex(item => item.key === key);
+                arrayDiv[textBoxIndex].data = textBoxData;
                 console.log(arrayDiv);
             });
-            
         }
+
 
         function addTextBox()
         {
-            arrayDiv.push(new TextBox(total, "Any"));
+            arrayDiv.push(new Note(total));
             total = total + 1;
-            console.log(arrayDiv);
         }
 
         
