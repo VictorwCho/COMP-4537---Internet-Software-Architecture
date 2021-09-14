@@ -20,6 +20,7 @@
     <script>
         //global variable to keep track of div numbers.
         total = 0;
+        apples = true;
 
         /**
          * - addTextBox() function creates a div tag with an incremental number assigned to
@@ -29,26 +30,64 @@
          * - total gets incremented accordingly
          * 
          * */
-        function addTextBox()
+        arrayDiv = [];
+
+        function TextBox(key, data)
         {
+            this.key = key;
+            this.data = data;
+
             let div = document.createElement("Div");
             div.id = total;
-            let inputTextArea = document.createElement("TextArea");
-            let removeButton = document.createElement("Button");
-            let buttonNameRemove = document.createTextNode("Remove");
-            removeButton.addEventListener('click', function()
+            
+            this.txtbx = document.createElement("TextArea");
+
+            this.btn = document.createElement("Button");
+            this.btnName = document.createTextNode("Remove");
+            this.btn.appendChild(this.btnName);
+
+            
+            div.appendChild(this.txtbx);
+            div.appendChild(this.btn);
+
+            textArea = document.getElementById("textArea");
+            textArea.appendChild(div);
+
+            this.btn.addEventListener('click', function()
             {
                 div.remove();
+                arrayDiv.pop(div);
+                console.log(arrayDiv);
             });
-            removeButton.appendChild(buttonNameRemove);
-            div.appendChild(inputTextArea);
-            div.appendChild(removeButton);
-            document.getElementById('textArea').appendChild(div);
-            total = total + 1;
-            console.log(document.getElementById('1')).value();
+            
         }
+
+        function addTextBox()
+        {
+            arrayDiv.push(new TextBox(total, "Any"));
+            total = total + 1;
+            console.log(arrayDiv);
+        }
+
         
-        console.log(document.getElementById('1')).value();
+        // function addTextBox()
+        // {
+        //     let div = document.createElement("Div");
+        //     div.id = total;
+        //     let inputTextArea = document.createElement("TextArea");
+        //     let removeButton = document.createElement("Button");
+        //     let buttonNameRemove = document.createTextNode("Remove");
+        //     removeButton.addEventListener('click', function()
+        //     {
+        //         div.remove();
+        //     });
+
+        //     removeButton.appendChild(buttonNameRemove);
+        //     div.appendChild(inputTextArea);
+        //     div.appendChild(removeButton);
+        //     document.getElementById('textArea').appendChild(div);
+        //     total = total + 1;
+        // }
 
         const msg_notSupported = "Sorry web Storage is not supported!";
         const msg_key = "hidden secret";
