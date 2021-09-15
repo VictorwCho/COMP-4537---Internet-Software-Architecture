@@ -10,17 +10,22 @@ backBtn.onclick = () => {
 };
 
 //Global variable to be used for unique ids.
-let total = 0;
+var total = 0;
 let arrayDiv = [];
-
-function TextBox(key) {
+function TextBox(key, data) {
   this.key = key;
-  this.data = null;
+  if (data === null) {
+    this.data = "";
+  } else {
+    this.data = data;
+  };
 
   let div = document.createElement('Div');
   div.id = total;
 
   this.txtBox = document.createElement('TextArea');
+  this.txtBoxData = document.createTextNode(this.data);
+  this.txtBox.appendChild(this.txtBoxData);
 
   this.btnRemove = document.createElement('Button');
   this.btnName = document.createTextNode('Remove');
@@ -29,13 +34,14 @@ function TextBox(key) {
   div.appendChild(this.txtBox);
   div.appendChild(this.btnRemove);
 
-  textArea = document.getElementById('textArea');
+  let textArea = document.getElementById('textArea');
   textArea.appendChild(div);
 
   //Removes the textbox.
   this.btnRemove.addEventListener('click', function () {
     div.remove();
     arrayDiv.pop(div);
+    localStorage.removeItem(key);
   });
   
   //Listens for changes in the textbox.
@@ -43,16 +49,27 @@ function TextBox(key) {
     textBoxData = this.value;
     textBoxIndex = arrayDiv.findIndex(item => item.key === key);
     arrayDiv[textBoxIndex].data = textBoxData;
-    console.log(arrayDiv);
+    // console.log(arrayDiv);
   });
 }
 
+function addLocalText() {
+  if (localStorage.length != 0) {
+    for (let i=0; i < localStorage.length; i++) {
+      let localKey = localStorage.key(i);
+      let bx = JSON.parse(localStorage.getItem(localKey));
+      let newBx = new TextBox(bx.key, bx.data);
+      arrayDiv.push(newBx);
+      total++;
+    }
+  }
+}
+
 function addTextBox() {
-  arrayDiv.push(new TextBox(total, 'Any'));
-  total = total + 1;
+  arrayDiv.push(new TextBox(total, null));
+  total++;
+
 };
-
-
 
 const msg_notSupported = 'Sorry web Storage is not supported!';
 const msg_key = 'hidden secret';
@@ -62,5 +79,21 @@ if (typeof Storage == 'undefined') {
   window.stop();
 }
 
-localStorage.setItem(msg_key, '2021');
-document.write(msg_written + key);
+function storedAt() {
+  for (let i=0; i < arrayDiv.length; i++) {
+    let myObj = arrayDiv[i];
+    let myJson = JSON.stringify(myObj);
+    localStorage.setItem(i, myJson);
+  }
+  updateStoredAt();
+}
+
+function updateStoredAt() {
+  let d = new Date();
+  let newD = d.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
+  document.getElementById("storedAt").innerHTML='Stored at: ' + newD;
+}
+
+addLocalText();
+setInterval(storedAt, 2000);
+
