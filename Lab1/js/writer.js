@@ -12,6 +12,7 @@ backBtn.onclick = () => {
 //Global variable to be used for unique ids.
 let total = 0;
 let arrayDiv = [];
+let newArrayDiv = [];
 
 function TextBox(key, data) {
   this.key = key;
@@ -41,16 +42,24 @@ function TextBox(key, data) {
   //Removes the textbox.
   this.btnRemove.addEventListener('click', function () {
     div.remove();
-    arrayDiv.pop(div);
+    // arrayDiv.pop(div);
+    for (let i = 0; i < arrayDiv.length; i++) {
+      if (i == div.id) {
+        continue;
+      } else {
+        newArrayDiv[i] = arrayDiv[i];
+      }
+    }
     localStorage.removeItem(div.id);
     console.log(arrayDiv);
+    console.log(newArrayDiv);
   });
 
   //Listens for changes in the textbox.
   this.txtBox.addEventListener('input', function () {
     let textBoxData = this.value;
-    let textBoxIndex = arrayDiv.findIndex((item) => item.key === key);
-    arrayDiv[textBoxIndex].data = textBoxData;
+    let textBoxIndex = newArrayDiv.findIndex((item) => item.key === key);
+    newArrayDiv[textBoxIndex].data = textBoxData;
     // console.log(arrayDiv);
   });
 }
@@ -61,14 +70,17 @@ function addLocalText() {
       let localKey = localStorage.key(i);
       let bx = JSON.parse(localStorage.getItem(localKey));
       let newBx = new TextBox(bx.key, bx.data);
-      arrayDiv.push(newBx);
+      newArrayDiv.push(newBx);
       total++;
     }
   }
 }
 
 function addTextBox() {
-  arrayDiv.push(new TextBox(total, null));
+  let textBox = new TextBox(total, null);
+  arrayDiv.push(textBox);
+  let myJson = JSON.stringify(textBox);
+  localStorage.setItem(total, myJson);
   total++;
 }
 
@@ -81,8 +93,8 @@ if (typeof Storage == 'undefined') {
 }
 
 function storedAt() {
-  for (let i = 0; i < arrayDiv.length; i++) {
-    let myObj = arrayDiv[i];
+  for (let i = 0; i < newArrayDiv.length; i++) {
+    let myObj = newArrayDiv[i];
     let myJson = JSON.stringify(myObj);
     localStorage.setItem(myObj.key, myJson);
   }
