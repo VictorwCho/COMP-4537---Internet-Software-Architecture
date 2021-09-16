@@ -1,0 +1,23 @@
+#textArea > div {
+  border: 2px solid black;
+  width: fit-content;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 5px;
+  background-color: rgb(0, 110, 255);
+}
+
+#writeBckBtn {
+  background-color: orange;
+}
+
+#textArea > div > Button {
+  background-color: red;
+}
+#addTextBox {
+  background-color: rgb(35, 255, 15);
+  margin-bottom: 10px;
+}
+#textArea > div > * {
+  color: white;
+}
