@@ -16,10 +16,10 @@ let arrayDiv = [];
 function TextBox(key, data) {
   this.key = key;
   if (data === null) {
-    this.data = "";
+    this.data = '';
   } else {
     this.data = data;
-  };
+  }
 
   let div = document.createElement('Div');
   div.id = total;
@@ -42,13 +42,13 @@ function TextBox(key, data) {
   this.btnRemove.addEventListener('click', function () {
     div.remove();
     arrayDiv.pop(div);
-    localStorage.removeItem(key);
+    localStorage.removeItem(div.id);
   });
-  
+
   //Listens for changes in the textbox.
-  this.txtBox.addEventListener('input', function() {
+  this.txtBox.addEventListener('input', function () {
     let textBoxData = this.value;
-    let textBoxIndex = arrayDiv.findIndex(item => item.key === key);
+    let textBoxIndex = arrayDiv.findIndex((item) => item.key === key);
     arrayDiv[textBoxIndex].data = textBoxData;
     // console.log(arrayDiv);
   });
@@ -56,7 +56,7 @@ function TextBox(key, data) {
 
 function addLocalText() {
   if (localStorage.length != 0) {
-    for (let i=0; i < localStorage.length; i++) {
+    for (let i = 0; i < localStorage.length; i++) {
       let localKey = localStorage.key(i);
       let bx = JSON.parse(localStorage.getItem(localKey));
       let newBx = new TextBox(bx.key, bx.data);
@@ -69,7 +69,7 @@ function addLocalText() {
 function addTextBox() {
   arrayDiv.push(new TextBox(total, null));
   total++;
-};
+}
 
 const msg_notSupported = 'Sorry web Storage is not supported!';
 // const msg_key = 'hidden secret';
@@ -79,9 +79,8 @@ if (typeof Storage == 'undefined') {
   window.stop();
 }
 
-
 function storedAt() {
-  for (let i=0; i < arrayDiv.length; i++) {
+  for (let i = 0; i < arrayDiv.length; i++) {
     let myObj = arrayDiv[i];
     let myJson = JSON.stringify(myObj);
     localStorage.setItem(myObj.key, myJson);
@@ -92,10 +91,8 @@ function storedAt() {
 function updateStoredAt() {
   let d = new Date();
   let newD = d.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
-  document.getElementById("storedAt").innerHTML='Stored at: ' + newD;
+  document.getElementById('storedAt').innerHTML = 'Stored at: ' + newD;
 }
 
 addLocalText();
 setInterval(storedAt, 2000);
-
-
