@@ -10,8 +10,9 @@ backBtn.onclick = () => {
 };
 
 //Global variable to be used for unique ids.
-var total = 0;
+let total = 0;
 let arrayDiv = [];
+
 function TextBox(key, data) {
   this.key = key;
   if (data === null) {
@@ -46,8 +47,8 @@ function TextBox(key, data) {
   
   //Listens for changes in the textbox.
   this.txtBox.addEventListener('input', function() {
-    textBoxData = this.value;
-    textBoxIndex = arrayDiv.findIndex(item => item.key === key);
+    let textBoxData = this.value;
+    let textBoxIndex = arrayDiv.findIndex(item => item.key === key);
     arrayDiv[textBoxIndex].data = textBoxData;
     // console.log(arrayDiv);
   });
@@ -68,22 +69,22 @@ function addLocalText() {
 function addTextBox() {
   arrayDiv.push(new TextBox(total, null));
   total++;
-
 };
 
 const msg_notSupported = 'Sorry web Storage is not supported!';
-const msg_key = 'hidden secret';
-const msg_written = 'A piece of data was written in local storage for they key:';
+// const msg_key = 'hidden secret';
+// const msg_written = 'A piece of data was written in local storage for they key:';
 if (typeof Storage == 'undefined') {
   document.write(msg_notSupported);
   window.stop();
 }
 
+
 function storedAt() {
   for (let i=0; i < arrayDiv.length; i++) {
     let myObj = arrayDiv[i];
     let myJson = JSON.stringify(myObj);
-    localStorage.setItem(i, myJson);
+    localStorage.setItem(myObj.key, myJson);
   }
   updateStoredAt();
 }
@@ -96,4 +97,5 @@ function updateStoredAt() {
 
 addLocalText();
 setInterval(storedAt, 2000);
+
 
