@@ -41,8 +41,8 @@ function TextBox(key, data) {
   //Removes the textbox.
   this.btnRemove.addEventListener('click', function () {
     div.remove();
-    arrayDiv.splice(div.id, 1);
     localStorage.removeItem(div.id);
+    arrayDiv.splice(div.id, 1);
     console.log(arrayDiv);
   });
 
@@ -82,6 +82,7 @@ if (typeof Storage == 'undefined') {
 
 function storedAt() {
   for (let i = 0; i < arrayDiv.length; i++) {
+    // console.log(arrayDiv);
     let myObj = arrayDiv[i];
     let myJson = JSON.stringify(myObj);
     localStorage.setItem(myObj.key, myJson);
