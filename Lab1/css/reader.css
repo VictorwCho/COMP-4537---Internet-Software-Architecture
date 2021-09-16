@@ -1,0 +1,20 @@
+#textArea > div {
+  border: 2px solid black;
+  width: fit-content;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 5px;
+  background-color: rgb(0, 110, 255);
+}
+
+#textArea > * {
+  color: white;
+}
+
+#readBckBtn {
+  background-color: darkgoldenrod;
+}
+
+/* #readAt {
+  color: red;
+} */

@@ -43,6 +43,7 @@ function TextBox(key, data) {
     div.remove();
     arrayDiv.pop(div);
     localStorage.removeItem(div.id);
+    console.log(arrayDiv);
   });
 
   //Listens for changes in the textbox.
