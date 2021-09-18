@@ -28,15 +28,26 @@ function DataReadIn(key, data) {
   textArea.appendChild(div);
 }
 
+// function addLocalText() {
+//   if (localStorage.length != 0) {
+//     for (let i = 0; i < localStorage.length; i++) {
+//       let localKey = localStorage.key(i);
+//       let bx = JSON.parse(localStorage.getItem(localKey));
+//       let newBx = new DataReadIn(bx.key, bx.data);
+//       arrayDiv.push(newBx);
+//       total++;
+//     }
+//   }
+// }
+
 function addLocalText() {
   if (localStorage.length != 0) {
-    for (let i = 0; i < localStorage.length; i++) {
-      let localKey = localStorage.key(i);
-      let bx = JSON.parse(localStorage.getItem(localKey));
-      let newBx = new DataReadIn(bx.key, bx.data);
-      arrayDiv.push(newBx);
-      total++;
-    }
+      let bx = JSON.parse(localStorage.getItem("KEY"));
+      for (let i = 0; i < bx.length; i++) {
+          arrayDiv.push(new DataReadIn(bx[i].key, bx[i].data));
+          total++
+          console.log(arrayDiv);
+  }
   }
 }
 
