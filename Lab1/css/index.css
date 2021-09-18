@@ -1,7 +1,26 @@
 #readBtn {
   background-color: orange;
+  position: absolute;
+  left: 50%;
+  top: 60%;
 }
 
 #writeBtn {
   background-color: rgb(35, 255, 15);
+  position: absolute;
+  left: 20%;
+  top: 60%;
+}
+
+#contentDiv {
+  color: #5420e2;
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  line-height: 30px;
+  font-size: 20px;
 }

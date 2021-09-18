@@ -3,8 +3,14 @@
   width: fit-content;
   border-radius: 5px;
   margin: 10px;
-  padding: 5px;
+  padding: 10px;
   background-color: rgb(0, 110, 255);
+  position: relative;
+  left: 50%;
+  top: 50%;
+  /* transform: translate(-50%, -50%); */
+  line-height: 30px;
+  font-size: 20px;
 }
 
 #textArea > * {
@@ -13,8 +19,15 @@
 
 #readBckBtn {
   background-color: orange;
+  position: relative;
+  left: 52%;
+  top: 50%;
 }
 
-/* #readAt {
+#readAt {
   color: red;
-} */
+  position: relative;
+  left: 52%;
+  top: 50%;
+  font-size: larger;
+}

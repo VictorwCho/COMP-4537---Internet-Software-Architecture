@@ -14,7 +14,7 @@ let total = 0;
 let arrayDiv = [];
 
 function TextBox(key, data) {
-    this.key = key;
+  this.key = key;
   if (data === null) {
     this.data = '';
   } else {
@@ -49,29 +49,29 @@ function TextBox(key, data) {
     // this.data = this.value;
     let textBoxIndex = arrayDiv.findIndex((item) => item.key == key);
     arrayDiv[textBoxIndex].data = this.value;
-    console.log("hi");
+    console.log('hi');
     console.log(arrayDiv);
   });
 }
 
 function addLocalText() {
-    if (localStorage.length != 0) {
-        let bx = JSON.parse(localStorage.getItem("KEY"));
-        for (let i = 0; i < bx.length; i++) {
-            arrayDiv.push(new TextBox(bx[i].key, bx[i].data));
-            total++
-            console.log(arrayDiv);
+  if (localStorage.length != 0) {
+    let bx = JSON.parse(localStorage.getItem('KEY'));
+    for (let i = 0; i < bx.length; i++) {
+      arrayDiv.push(new TextBox(bx[i].key, bx[i].data));
+      total++;
+      console.log(arrayDiv);
     }
-    }
+  }
 
-    // for (let i = 0; i < localStorage.length; i++) {
-    //   let localKey = localStorage.key(i);
-    //   let bx = JSON.parse(localStorage.getItem(localKey));
-    //   let newBx = new TextBox(bx.key, bx.data);
-    //   arrayDiv.push(newBx);
-    //   total++;
-    // }
-//   }
+  // for (let i = 0; i < localStorage.length; i++) {
+  //   let localKey = localStorage.key(i);
+  //   let bx = JSON.parse(localStorage.getItem(localKey));
+  //   let newBx = new TextBox(bx.key, bx.data);
+  //   arrayDiv.push(newBx);
+  //   total++;
+  // }
+  //   }
 }
 
 function addTextBox() {
@@ -97,9 +97,9 @@ if (typeof Storage == 'undefined') {
 //   updateStoredAt();
 // }
 function storedAt() {
-    let myJson = JSON.stringify(arrayDiv);
-    localStorage.setItem("KEY", myJson);
-    updateStoredAt();
+  let myJson = JSON.stringify(arrayDiv);
+  localStorage.setItem('KEY', myJson);
+  updateStoredAt();
 }
 
 function updateStoredAt() {
