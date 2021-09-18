@@ -10,19 +10,16 @@ backBtn.onclick = () => {
 };
 
 //Global variable to be used for unique ids.
-let total = 0;
+// let total = 0;
 let arrayDiv = [];
 
-function TextBox(key, data) {
-  this.key = key;
-  if (data === null) {
-    this.data = '';
-  } else {
-    this.data = data;
-  }
+// Object constructor for a TextBox
+function TextBox(data) {
+  // // this.key = key;
+  this.data = data
 
   let div = document.createElement('Div');
-  div.id = total;
+  // div.id = total;
 
   this.txtBox = document.createElement('TextArea');
   this.txtBoxData = document.createTextNode(this.data);
@@ -41,28 +38,39 @@ function TextBox(key, data) {
   //Removes the textbox.
   this.btnRemove.addEventListener('click', function () {
     div.remove();
-    arrayDiv.splice(div.id, 1);
+    arrayDiv.splice(div, 1);
+    // console.log(arrayDiv);
   });
 
   //Listens for changes in the textbox.
   this.txtBox.addEventListener('input', function () {
-    // this.data = this.value;
-    let textBoxIndex = arrayDiv.findIndex((item) => item.key == key);
-    arrayDiv[textBoxIndex].data = this.value;
-    console.log('hi');
-    console.log(arrayDiv);
+    this.data = this.value;
+  
+
+  //   // this.data = this.value;
+  //   let textBoxIndex = arrayDiv.findIndex((item) => item.key == key);
+  //   arrayDiv[textBoxIndex].data = this.value;
+  //   console.log('hi');
+  //   console.log(arrayDiv);
+
   });
 }
 
+// When writer.html loads, addLocalText() parases through the local storage and pushes the
+// objects in the local storage array into arrayDiv
 function addLocalText() {
+  // for (let i = 0; i < arrayDiv.length; i++) {
+  //   arrayDiv.push(new TextBox(arrayDiv[i]))
+  // }
   if (localStorage.length != 0) {
     let bx = JSON.parse(localStorage.getItem('KEY'));
     for (let i = 0; i < bx.length; i++) {
-      arrayDiv.push(new TextBox(bx[i].key, bx[i].data));
-      total++;
-      console.log(arrayDiv);
+      // arrayDiv[i].data = bx[i].txtBox.data;
+      arrayDiv.push(new TextBox(bx[i].txtBox.data));
+      // console.log(arrayDiv);
     }
   }
+
 
   // for (let i = 0; i < localStorage.length; i++) {
   //   let localKey = localStorage.key(i);
@@ -74,9 +82,11 @@ function addLocalText() {
   //   }
 }
 
+// addTextBox adds a new TextBox object into arrayDiv
 function addTextBox() {
-  arrayDiv.push(new TextBox(total, null));
-  total++;
+  arrayDiv.push(new TextBox(null));
+  console.log(arrayDiv);
+  // total++;
 }
 
 const msg_notSupported = 'Sorry web Storage is not supported!';
@@ -96,17 +106,35 @@ if (typeof Storage == 'undefined') {
 //   }
 //   updateStoredAt();
 // }
+
+// Turns the arrayDiv into JSON and sets it into local storage.
 function storedAt() {
+  // for (let i = 0; i < arrayDiv.length; i++) {
+  //     arrayDiv[i] = arrayDiv[i].data;
+  // }
+
+  //saves to local storage
   let myJson = JSON.stringify(arrayDiv);
   localStorage.setItem('KEY', myJson);
+
+  // taking from local storage and saving it in local array
+  let bx = JSON.parse(localStorage.getItem('KEY'));
+  for (let i = 0; i < bx.length; i++) {
+    arrayDiv[i].txtBox.data = bx[i].txtBox.data;
+    // console.log(bx[i].txtBox.data);
+    // console.log(arrayDiv[i]);
+
+  }
   updateStoredAt();
 }
 
+// Increments the time.
 function updateStoredAt() {
   let d = new Date();
   let newD = d.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
   document.getElementById('storedAt').innerHTML = 'Stored at: ' + newD;
 }
+
 
 addLocalText();
 setInterval(storedAt, 2000);
