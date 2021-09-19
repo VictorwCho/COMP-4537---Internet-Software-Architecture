@@ -2,61 +2,43 @@ const backBtn = document.getElementById('readBckBtn');
 
 backBtn.onclick = () => {
   window.location.href = 'index.html';
-};
+}
 
-let total = 0;
 let arrayDiv = [];
 
-function DataReadIn(key, data) {
-  this.key = key;
-  if (data === null) {
-    this.data = '';
-  } else {
-    this.data = data;
-  }
-
+function Data(data) {
   let div = document.createElement('Div');
-  div.id = total;
 
-  this.divArea = document.createElement('Div');
-  this.divAreaData = document.createTextNode(this.data);
-  div.appendChild(this.divAreaData);
+  this.txtBox = document.createElement('TextArea');
+  this.txtBox.data = data;
+  let txtBoxData = document.createTextNode(this.txtBox.data);
 
-  div.appendChild(this.divArea);
+  this.txtBox.appendChild(txtBoxData);
+  div.appendChild(this.txtBox);
 
   let textArea = document.getElementById('textArea');
   textArea.appendChild(div);
 }
 
-// function addLocalText() {
-//   if (localStorage.length != 0) {
-//     for (let i = 0; i < localStorage.length; i++) {
-//       let localKey = localStorage.key(i);
-//       let bx = JSON.parse(localStorage.getItem(localKey));
-//       let newBx = new DataReadIn(bx.key, bx.data);
-//       arrayDiv.push(newBx);
-//       total++;
-//     }
-//   }
-// }
 
 function addLocalText() {
   if (localStorage.length != 0) {
       let bx = JSON.parse(localStorage.getItem("KEY"));
       for (let i = 0; i < bx.length; i++) {
-          arrayDiv.push(new DataReadIn(bx[i].key, bx[i].data));
-          total++
+          arrayDiv.push(new Data(bx[i].txtBox.data));
           console.log(arrayDiv);
   }
   }
 }
 
 function readAt() {
-  for (let i = 0; i < arrayDiv.length; i++) {
-    let myObj = arrayDiv[i];
-    let myJson = JSON.stringify(myObj);
-    localStorage.setItem(i, myJson);
+  let query_div = document.querySelector('div');
+  let divChildren = query_div.firstElementChild;
+  while (divChildren) {
+    query_div.removeChild(divChildren);
+    divChildren = query_div.firstElementChild;
   }
+  addLocalText();
   updateReadAt();
 }
 

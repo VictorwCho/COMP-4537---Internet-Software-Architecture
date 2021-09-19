@@ -36,8 +36,11 @@ function TextBox(data) {
   textArea.appendChild(div);
 
   //Removes the textbox.
-  this.btnRemove.addEventListener('click', function () {   
-    console.log(this);
+  this.btnRemove.addEventListener('click', function () { 
+    let apples = arrayDiv.indexOf(this.parentElement);
+    console.log(apples);
+    console.log(arrayDiv);
+    console.log(this.parentNode);
     div.remove();
   });
 
@@ -83,7 +86,7 @@ function addLocalText() {
 
 // addTextBox adds a new TextBox object into arrayDiv
 function addTextBox() {
-  arrayDiv.push(new TextBox('undifined'));
+  arrayDiv.push(new TextBox(""));
   console.log(arrayDiv);
   // total++;
 }
