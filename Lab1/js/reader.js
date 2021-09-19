@@ -4,9 +4,11 @@ backBtn.onclick = () => {
   window.location.href = 'index.html';
 }
 
+// Global array to store objects.
 let arrayDiv = [];
 
-function Data(data) {
+// Object constructor for the data box.
+function DataBox(data) {
   let div = document.createElement('Div');
 
   this.txtBox = document.createElement('TextArea');
@@ -20,17 +22,26 @@ function Data(data) {
   textArea.appendChild(div);
 }
 
-
-function addLocalText() {
-  if (localStorage.length != 0) {
-      let bx = JSON.parse(localStorage.getItem("KEY"));
-      for (let i = 0; i < bx.length; i++) {
-          arrayDiv.push(new Data(bx[i].txtBox.data));
-          console.log(arrayDiv);
-  }
+// checks to see if browsers support web storage.
+function supportBrowser() {
+  const msg_notSupported = 'Sorry web Storage is not supported!';
+  if (typeof Storage == 'undefined') {
+    document.write(msg_notSupported);
+    window.stop();
   }
 }
 
+// Creates the object using information from the local storage.
+function addLocalText() {
+  if (localStorage.length != 0) {
+    let bx = JSON.parse(localStorage.getItem("KEY"));
+    for (let i = 0; i < bx.length; i++) {
+      arrayDiv.push(new DataBox(bx[i].txtBox.data));
+    }
+  }
+}
+
+// Updates the textarea with new information when local storage is changed.
 function readAt() {
   let query_div = document.querySelector('div');
   let divChildren = query_div.firstElementChild;
@@ -38,15 +49,18 @@ function readAt() {
     query_div.removeChild(divChildren);
     divChildren = query_div.firstElementChild;
   }
+  arrayDiv.length = 0;
   addLocalText();
   updateReadAt();
 }
 
+// Increments the time.
 function updateReadAt() {
   let d = new Date();
   let newD = d.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
   document.getElementById('readAt').innerHTML = 'Read at: ' + newD;
 }
 
+supportBrowser();
 addLocalText();
 setInterval(readAt, 2000);

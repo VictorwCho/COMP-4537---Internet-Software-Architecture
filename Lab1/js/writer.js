@@ -9,29 +9,22 @@ backBtn.onclick = () => {
   window.location.href = 'index.html';
 };
 
-//Global variable to be used for unique ids.
-let total = 0;
+// Global Array to store objects.
 let arrayDiv = [];
 
-function TextBox(key, data) {
-  this.key = key;
-  if (data === null) {
-    this.data = '';
-  } else {
-    this.data = data;
-  }
-
+// Object constructor for a TextBox
+function TextBox(data) {
   let div = document.createElement('Div');
-  div.id = total;
 
   this.txtBox = document.createElement('TextArea');
-  this.txtBoxData = document.createTextNode(this.data);
-  this.txtBox.appendChild(this.txtBoxData);
+  this.txtBox.data = data;
+  let txtBoxData = document.createTextNode(this.txtBox.data);
 
   this.btnRemove = document.createElement('Button');
   this.btnName = document.createTextNode('Remove');
   this.btnRemove.appendChild(this.btnName);
 
+  this.txtBox.appendChild(txtBoxData);
   div.appendChild(this.txtBox);
   div.appendChild(this.btnRemove);
 
@@ -41,60 +34,69 @@ function TextBox(key, data) {
   //Removes the textbox.
   this.btnRemove.addEventListener('click', function () {
     div.remove();
-    localStorage.removeItem(div.id);
-    arrayDiv.splice(div.id, 1);
-    console.log(arrayDiv);
+
+    // After removing the desired element, we store the remaining elements
+    // in "textArea". We then select the parent element and while there are children
+    // we remove them. We then empty the global array and for each element in our variable
+    // textArea, we push the new object.
+    let textArea = document.querySelectorAll('textArea');
+    let query_div = document.querySelector('div');
+    let divChildren = query_div.firstElementChild;
+    while (divChildren) {
+      query_div.removeChild(divChildren);
+      divChildren = query_div.firstElementChild;
+    }
+    arrayDiv.length = 0;
+    textArea.forEach(element => {
+      arrayDiv.push(new TextBox(element.value));
+    });
   });
 
   //Listens for changes in the textbox.
   this.txtBox.addEventListener('input', function () {
-    let textBoxData = this.value;
-    let textBoxIndex = arrayDiv.findIndex((item) => item.key === key);
-    arrayDiv[textBoxIndex].data = textBoxData;
-    // console.log(arrayDiv);
+    this.data = this.value;
   });
 }
 
+// checks to see if browsers support web storage.
+function supportBrowser() {
+  const msg_notSupported = 'Sorry web Storage is not supported!';
+  if (typeof Storage == 'undefined') {
+    document.write(msg_notSupported);
+    window.stop();
+  }
+}
+
+// When writer.html loads, addLocalText() parases through the local storage and pushes the
+// objects in the local storage array into arrayDiv
 function addLocalText() {
   if (localStorage.length != 0) {
-    for (let i = 0; i < localStorage.length; i++) {
-      let localKey = localStorage.key(i);
-      let bx = JSON.parse(localStorage.getItem(localKey));
-      let newBx = new TextBox(bx.key, bx.data);
-      arrayDiv.push(newBx);
-      total++;
+    let bx = JSON.parse(localStorage.getItem('KEY'));
+    for (let i = 0; i < bx.length; i++) {
+      arrayDiv.push(new TextBox(bx[i].txtBox.data));
     }
   }
 }
 
+// addTextBox adds a new TextBox object into arrayDiv
 function addTextBox() {
-  arrayDiv.push(new TextBox(total, null));
-  total++;
+  arrayDiv.push(new TextBox(""));
 }
 
-const msg_notSupported = 'Sorry web Storage is not supported!';
-// const msg_key = 'hidden secret';
-// const msg_written = 'A piece of data was written in local storage for they key:';
-if (typeof Storage == 'undefined') {
-  document.write(msg_notSupported);
-  window.stop();
-}
-
+// Turns the arrayDiv into JSON and sets it into local storage every two seconds.
 function storedAt() {
-  for (let i = 0; i < arrayDiv.length; i++) {
-    // console.log(arrayDiv);
-    let myObj = arrayDiv[i];
-    let myJson = JSON.stringify(myObj);
-    localStorage.setItem(myObj.key, myJson);
-  }
+  let myJson = JSON.stringify(arrayDiv);
+  localStorage.setItem('KEY', myJson);
   updateStoredAt();
 }
 
+// Increments the time.
 function updateStoredAt() {
   let d = new Date();
   let newD = d.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
   document.getElementById('storedAt').innerHTML = 'Stored at: ' + newD;
 }
 
+supportBrowser();
 addLocalText();
 setInterval(storedAt, 2000);
