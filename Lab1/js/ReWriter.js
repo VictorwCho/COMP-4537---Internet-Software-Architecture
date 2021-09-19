@@ -10,25 +10,25 @@ backBtn.onclick = () => {
 };
 
 //Global variable to be used for unique ids.
-// let total = 0;
 let arrayDiv = [];
 
 // Object constructor for a TextBox
 function TextBox(data) {
   // // this.key = key;
-  this.data = data
 
   let div = document.createElement('Div');
   // div.id = total;
 
   this.txtBox = document.createElement('TextArea');
-  this.txtBoxData = document.createTextNode(this.data);
-  this.txtBox.appendChild(this.txtBoxData);
+  this.txtBox.data = data;
+  let txtBoxData = document.createTextNode(this.txtBox.data);
+
 
   this.btnRemove = document.createElement('Button');
   this.btnName = document.createTextNode('Remove');
   this.btnRemove.appendChild(this.btnName);
 
+  this.txtBox.appendChild(txtBoxData);
   div.appendChild(this.txtBox);
   div.appendChild(this.btnRemove);
 
@@ -36,10 +36,9 @@ function TextBox(data) {
   textArea.appendChild(div);
 
   //Removes the textbox.
-  this.btnRemove.addEventListener('click', function () {
+  this.btnRemove.addEventListener('click', function () {   
+    console.log(this);
     div.remove();
-    arrayDiv.splice(div, 1);
-    // console.log(arrayDiv);
   });
 
   //Listens for changes in the textbox.
@@ -84,7 +83,7 @@ function addLocalText() {
 
 // addTextBox adds a new TextBox object into arrayDiv
 function addTextBox() {
-  arrayDiv.push(new TextBox(null));
+  arrayDiv.push(new TextBox('undifined'));
   console.log(arrayDiv);
   // total++;
 }
@@ -112,19 +111,19 @@ function storedAt() {
   // for (let i = 0; i < arrayDiv.length; i++) {
   //     arrayDiv[i] = arrayDiv[i].data;
   // }
-
+  let bx = JSON.parse(localStorage.getItem('KEY'));
   //saves to local storage
   let myJson = JSON.stringify(arrayDiv);
   localStorage.setItem('KEY', myJson);
 
-  // taking from local storage and saving it in local array
-  let bx = JSON.parse(localStorage.getItem('KEY'));
-  for (let i = 0; i < bx.length; i++) {
-    arrayDiv[i].txtBox.data = bx[i].txtBox.data;
-    // console.log(bx[i].txtBox.data);
-    // console.log(arrayDiv[i]);
+  // // taking from local storage and saving it in local array
+  // // let bx = JSON.parse(localStorage.getItem('KEY'));
+  // for (let i = 0; i < bx.length; i++) {
+  //   arrayDiv[i].txtBox.data = bx[i].txtBox.data;
+  //   // console.log(bx[i].txtBox.data);
+  //   // console.log(arrayDiv[i]);
 
-  }
+  // }
   updateStoredAt();
 }
 
