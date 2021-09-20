@@ -1,6 +1,9 @@
 const backBtn = document.getElementById('writeBckBtn');
 const txtBox = document.getElementById('addTextBox');
 
+// Global Array to store objects.
+let arrayDiv = [];
+
 txtBox.onclick = () => {
   addTextBox();
 };
@@ -8,9 +11,6 @@ txtBox.onclick = () => {
 backBtn.onclick = () => {
   window.location.href = 'index.html';
 };
-
-// Global Array to store objects.
-let arrayDiv = [];
 
 // Object constructor for a TextBox
 function TextBox(data) {
@@ -40,6 +40,7 @@ function TextBox(data) {
     // we remove them. We then empty the global array and for each element in our variable
     // textArea, we push the new object.
     let textArea = document.querySelectorAll('textArea');
+    console.log(textArea);
     let query_div = document.querySelector('div');
     let divChildren = query_div.firstElementChild;
     while (divChildren) {

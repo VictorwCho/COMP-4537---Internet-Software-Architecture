@@ -1,11 +1,12 @@
 const backBtn = document.getElementById('readBckBtn');
+const msg_notSupported = 'Sorry web Storage is not supported!';
+
+// Global array to store objects.
+let arrayDiv = [];
 
 backBtn.onclick = () => {
   window.location.href = 'index.html';
 }
-
-// Global array to store objects.
-let arrayDiv = [];
 
 // Object constructor for the data box.
 function DataBox(data) {
@@ -24,7 +25,6 @@ function DataBox(data) {
 
 // checks to see if browsers support web storage.
 function supportBrowser() {
-  const msg_notSupported = 'Sorry web Storage is not supported!';
   if (typeof Storage == 'undefined') {
     document.write(msg_notSupported);
     window.stop();
