@@ -11,11 +11,35 @@
     <input type='text' id='dictWord'>
     <label for='dictDefinition'>Definition</label>
     <textarea id="dictArea"></textarea>
-    <button>Submit</button>
+    <button onClick="send()">Submit</button>
 
-<div>
+<div id='response'>
     No Response Yet!
 </div>
     
 </body>
+
+<script>
+    function send() {
+        const xttp = new XMLHttpRequest();
+        const word = document.getElementById("dictWord").value;
+        console.log(word);
+        const definition = document.getElementById('dictArea').value;
+        console.log(definition);
+        defintionObject = new dictionaryWord(word, definition);
+        console.log(defintionObject);
+        xttp.open("POST", `http://localhost:8085/?word=${word}&definition=${definition}`, true);
+        xttp.send();
+        xttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById('response').innerHTML = this.responseText;
+            }
+        }
+    }
+
+    function dictionaryWord(word, definition) {
+        this.word = word;
+        this.definition = definition;
+    }
+</script>
 </html>
