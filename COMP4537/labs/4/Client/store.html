@@ -11,7 +11,7 @@
     <input type='text' id='dictWord'>
     <label for='dictDefinition'>Definition</label>
     <textarea id="dictArea"></textarea>
-    <button onClick="send()">Submit</button>
+    <button onClick="post()">Submit</button>
 
 <div id='response'>
     No Response Yet!
@@ -20,18 +20,18 @@
 </body>
 
 <script>
-    function send() {
         const xttp = new XMLHttpRequest();
-        const word = document.getElementById("dictWord").value;
-        console.log(word);
-        const definition = document.getElementById('dictArea').value;
-        console.log(definition);
+        const endPointRoot = "http://localhost:8085/API/V1/";
+        let resource = "myDictionary/";
+        
+    function post() {
+        xttp.open("POST", endPointRoot + resource, true);
+        xttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        let word = document.getElementById("dictWord").value;
+        let definition = document.getElementById('dictArea').value;
+        let JSONDictionary = JSON.stringify(new dictionaryWord(word, definition));
 
-        const JSONDictionary = JSON.stringify(new dictionaryWord(word, definition));
-        console.log(JSONDictionary);
-        xttp.open("POST", `http://localhost:8085/`, true);
-        let params = JSONDictionary;
-        xttp.send(params);
+        xttp.send(JSONDictionary);
         xttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById('response').innerHTML = this.responseText;

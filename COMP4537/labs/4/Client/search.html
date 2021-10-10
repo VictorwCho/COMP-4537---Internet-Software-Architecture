@@ -4,10 +4,38 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Search</title>
 </head>
 <body>
     <label for='searchInput'>Search Input</label>
-    <input type='text' id='serachInput'>
+    <input type='text' id='searchWord'>
+
+    <div id='displayDictionary'>
+        ""
+    </div>
 </body>
+
+<script>
+    const xttp = new XMLHttpRequest();
+    const endPointRoot = "http://localhost:8085/API/V1/";
+    let resource = "myDictionary/";
+    let searchInput = document.getElementById('searchWord');
+
+    searchInput.addEventListener('input', getWord);
+    
+    function getWord(event) {
+        let word = event.target.value;
+        console.log(word);
+        const url = endPointRoot + resource + word;
+        xttp.open("GET", url, true);
+        xttp.send();
+        xttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("displayDictionary").innerHTML = this.responseText;
+            } else {
+                document.getElementById(displayDictionary).innerHTML = `Request # 103, ${word} not found!`
+            }
+        }
+    }
+</script>
 </html>
