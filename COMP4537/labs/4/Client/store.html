@@ -16,7 +16,7 @@
 <div id='response'>
     No Response Yet!
 </div>
-    
+
 </body>
 
 <script>
@@ -26,10 +26,12 @@
         console.log(word);
         const definition = document.getElementById('dictArea').value;
         console.log(definition);
-        defintionObject = new dictionaryWord(word, definition);
-        console.log(defintionObject);
-        xttp.open("POST", `http://localhost:8085/?word=${word}&definition=${definition}`, true);
-        xttp.send();
+
+        const JSONDictionary = JSON.stringify(new dictionaryWord(word, definition));
+        console.log(JSONDictionary);
+        xttp.open("POST", `http://localhost:8085/`, true);
+        let params = JSONDictionary;
+        xttp.send(params);
         xttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById('response').innerHTML = this.responseText;
