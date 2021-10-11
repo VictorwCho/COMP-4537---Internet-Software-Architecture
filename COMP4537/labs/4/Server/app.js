@@ -19,7 +19,7 @@ http.createServer(function (req, res) {
     const q = url.parse(req.url, true);
     const splitPath = q.pathname.split("/");
     const word = splitPath.pop();
-    
+
     if (dictionary.some(dictionaryWord => dictionaryWord.word == word)) {
       let dictionaryObject = dictionary.find(dictionaryObject => dictionaryObject.word == word);
       console.log(dictionaryObject);
@@ -53,7 +53,7 @@ http.createServer(function (req, res) {
       console.log(dictionary, "true");
 
       // Otherwise it adds the word and its definition to your dictionary and returns
-      // another appropriate message such as: 
+      // another appropriate message such as:
       // Request # 102
       // New entry recorded:
       //"Book : A written or printed work consisting of pages glued or sewn together"
