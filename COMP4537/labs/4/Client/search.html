@@ -9,25 +9,20 @@
 <body>
     <label for='searchInput'>Search Input</label>
     <input type='text' id='searchWord'>
-
     <div id='displayDictionary'>
-        ""
     </div>
 </body>
 
 <script>
-    ////Comment
     const xttp = new XMLHttpRequest();
-    const endPointRoot = "http://localhost:8085/api/definitions/";
-    let resource = "myDictionary/";
+    const endPointRoot = "http://localhost:3000/api/definitions/";
     let searchInput = document.getElementById('searchWord');
 
     searchInput.addEventListener('input', getWord);
 
     function getWord(event) {
         let word = event.target.value.toLocaleLowerCase();
-        console.log(word);
-        const url = endPointRoot + resource + word;
+        const url = endPointRoot + word;
         xttp.open("GET", url, true);
         xttp.send();
         xttp.onreadystatechange = function () {

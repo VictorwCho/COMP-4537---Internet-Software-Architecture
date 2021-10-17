@@ -16,23 +16,20 @@
 <div id='response'>
     No Response Yet!
 </div>
-
 </body>
 
 <script>
-        const xttp = new XMLHttpRequest();
-        const endPointRoot = "http://localhost:8085/api/definitions/";
-        let resource = "myDictionary/";
+        const xhttp = new XMLHttpRequest();
+        const endPointRoot = "http://localhost:3000/api/definitions/";
 
     function post() {
-        xttp.open("POST", endPointRoot + resource, true);
-        xttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhttp.open("POST", endPointRoot, true);
+        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         let word = document.getElementById("dictWord").value;
         let definition = document.getElementById('dictArea').value;
         let JSONDictionary = JSON.stringify(new dictionaryWord(word, definition)).toLocaleLowerCase();
-
-        xttp.send(JSONDictionary);
-        xttp.onreadystatechange = function () {
+        xhttp.send(JSONDictionary);
+        xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById('response').innerHTML = this.responseText;
             }
