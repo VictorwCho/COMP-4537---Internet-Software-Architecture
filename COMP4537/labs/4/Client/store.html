@@ -29,7 +29,7 @@
         xttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         let word = document.getElementById("dictWord").value;
         let definition = document.getElementById('dictArea').value;
-        let JSONDictionary = JSON.stringify(new dictionaryWord(word, definition));
+        let JSONDictionary = JSON.stringify(new dictionaryWord(word, definition)).toLocaleLowerCase();
 
         xttp.send(JSONDictionary);
         xttp.onreadystatechange = function () {

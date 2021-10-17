@@ -6,6 +6,7 @@ const endPointRoot = "/API/V1/";
 const resource = "myDictionary/";
 
 let dictionary = [];
+let requestNum = 0;
 
 http.createServer(function (req, res) {
   res.writeHead(200, {
@@ -25,7 +26,8 @@ http.createServer(function (req, res) {
       console.log(dictionaryObject);
       res.end(`${dictionaryObject.word}: ${dictionaryObject.definition}`);
     } else {
-      res.end(`Request # 103, word "${word}" not found!"`)
+      res.end(`Request #: ${requestNum}<br>, word "${word}" not found!"`) \
+      requestNum += 1;
     }
 
   };
@@ -44,11 +46,13 @@ http.createServer(function (req, res) {
       console.log("it exists");
 
       // If the word already exists, it returns a message. ( e.g. 'blah blah ' already exists.
-      // res.writeHead(404, { 'Content-Type': 'text/html' });
-      // res.write(`${jsonObj.word} already exists!`);
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.write(`Request #: ${requestNum}<br>, ${jsonObj.word} already exists!`);
+      requestNum += 1;
 
 
     } else {
+
       dictionary.push(jsonObj);
       console.log(dictionary, "true");
 
@@ -58,8 +62,9 @@ http.createServer(function (req, res) {
       // New entry recorded:
       //"Book : A written or printed work consisting of pages glued or sewn together"
 
-      // res.writeHead(102, {'Content-Type': 'text/html'});
-      // res.write("New Entry Recoreded: <br>" + `${jsonObj.word} ${jsonObj.definition}`)
+      res.writeHead(200, {'Content-Type': 'text/html'});
+      res.write(`Request #: ${requestNum}<br>, New Entry Recoreded: <br>" + ${jsonObj.word} ${jsonObj.definition}`);
+      requestNum += 1;
     }
     });
 
