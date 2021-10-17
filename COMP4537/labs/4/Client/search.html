@@ -22,7 +22,8 @@
 
     function getWord(event) {
         let word = event.target.value.toLocaleLowerCase();
-        const url = endPointRoot + word;
+        let param = `?word=${word}`
+        const url = endPointRoot + param;
         xttp.open("GET", url, true);
         xttp.send();
         xttp.onreadystatechange = function () {

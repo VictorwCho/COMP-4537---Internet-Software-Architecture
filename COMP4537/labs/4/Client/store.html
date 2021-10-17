@@ -27,8 +27,11 @@
         xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         let word = document.getElementById("dictWord").value;
         let definition = document.getElementById('dictArea').value;
-        let JSONDictionary = JSON.stringify(new dictionaryWord(word, definition)).toLocaleLowerCase();
-        xhttp.send(JSONDictionary);
+        let lowerCaseWord = word.toLowerCase();
+        // let JSONDictionary = JSON.stringify(new dictionaryWord(word, definition)).toLocaleLowerCase();
+        let param = `?word=${lowerCaseWord}&definition=${definition}`;
+        console.log(param);
+        xhttp.send(param);
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById('response').innerHTML = this.responseText;

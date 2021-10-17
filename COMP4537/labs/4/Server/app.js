@@ -4,7 +4,7 @@ const GET = "GET";
 const POST = "POST";
 const endPointRoot = "/api/definitions/";
 
-let dictionary = [];
+let dictionary = {};
 let requestNum = 0;
 
 http.createServer(function (req, res) {
@@ -14,39 +14,40 @@ http.createServer(function (req, res) {
     "Access-Control-Allow-Methods": "*"
   });
 
-  if (req.method == GET) {
-    const q = url.parse(req.url, true);
-    const splitPath = q.pathname.split("/");
-    const word = splitPath.pop();
+  if (req.method === GET) {
+    requestNum = requestNum + 1;
+    const qObject = url.parse(req.url, true);
+    console.log(qObject.query['word']);
 
-    if (dictionary.some(dictionaryWord => dictionaryWord.word == word)) {
-      let dictionaryObject = dictionary.find(dictionaryObject => dictionaryObject.word == word);
-      res.end(`${dictionaryObject.word}: ${dictionaryObject.definition}`);
+    if (qObject.query['word'] in dictionary) {
+      res.end(`Request #: ${requestNum}<br> Word: ${qObject.query['word']}<br> Definition: ${dictionary[qObject.query['word']]}`);
+
     } else {
-      res.end(`Request #: ${requestNum}<br> The word: "${word}" was not found!"`);
+      res.end(`Request #: ${requestNum}<br> The word: "${qObject.query['word']}" was not found!"`);
     }
 
   };
 
 
   if (req.method == POST && req.url === endPointRoot) {
-    let jsonObj;
+    let body = "";
     req.on('data', function (chunk) {
       if (chunk != null) {
-        jsonObj = JSON.parse(chunk);
-        dictionary.push(jsonObj);
+        body = body + chunk;
+      }
+    });
 
-      // message to notify word was saved.
-      res.end(`Request #: ${requestNum}<br> The word: ${jsonObj.word} was stored successfully!`);
-
-      } else if (dictionary.some(dictionaryWord => dictionaryWord.word == jsonObj.word)) {
-      console.log("it exists");
-
-      // If the word already exists, it returns a message. ( e.g. 'blah blah ' already exists.
-      res.end(`Request #: ${requestNum}<br> The word: ${jsonObj.word} already exists!`);
+    req.on('end', function() {
+      let qObject = url.parse(body, true);
+      requestNum = requestNum + 1;
+      if (qObject.query["word"] in dictionary) {
+        res.end(`Request #: ${requestNum}<br> The word: ${qObject.query['word']} already exists!`);
+      } else {
+        dictionary[qObject.query["word"]] = qObject.query["definition"];
+        res.end(`Request #: ${requestNum}<br> The word: ${qObject.query['word']} was stored successfully!`);
+        console.log(dictionary);
     }
     });
   };
-  requestNum += 1;
 
 }).listen(3000);
