@@ -18,14 +18,14 @@
 <script>
     ////Comment
     const xttp = new XMLHttpRequest();
-    const endPointRoot = "http://localhost:8085/API/V1/";
+    const endPointRoot = "http://localhost:8085/api/definitions/";
     let resource = "myDictionary/";
     let searchInput = document.getElementById('searchWord');
 
     searchInput.addEventListener('input', getWord);
 
     function getWord(event) {
-        let word = event.target.value;
+        let word = event.target.value.toLocaleLowerCase();
         console.log(word);
         const url = endPointRoot + resource + word;
         xttp.open("GET", url, true);
