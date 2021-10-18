@@ -19,29 +19,20 @@
 </body>
 
 <script>
-        const xhttp = new XMLHttpRequest();
-        const endPointRoot = "http://localhost:3000/api/definitions/";
-
     function post() {
-        xhttp.open("POST", endPointRoot, true);
-        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        const xhttp = new XMLHttpRequest();
+        const endPointRoot = "http://robertwilson875.com/COMP4537/labs/4/api/definitions/";
         let word = document.getElementById("dictWord").value;
         let definition = document.getElementById('dictArea').value;
         let lowerCaseWord = word.toLowerCase();
-        // let JSONDictionary = JSON.stringify(new dictionaryWord(word, definition)).toLocaleLowerCase();
         let param = `?word=${lowerCaseWord}&definition=${definition}`;
-        console.log(param);
-        xhttp.send(param);
+        xhttp.open("POST", endPointRoot + param, true);
+        xhttp.send();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById('response').innerHTML = this.responseText;
             }
         }
-    }
-
-    function dictionaryWord(word, definition) {
-        this.word = word;
-        this.definition = definition;
     }
 </script>
 </html>

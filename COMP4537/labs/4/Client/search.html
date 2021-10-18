@@ -14,13 +14,12 @@
 </body>
 
 <script>
-    const xttp = new XMLHttpRequest();
-    const endPointRoot = "http://localhost:3000/api/definitions/";
     let searchInput = document.getElementById('searchWord');
-
     searchInput.addEventListener('input', getWord);
 
     function getWord(event) {
+        const xttp = new XMLHttpRequest();
+        const endPointRoot = "http://robertwilson875.com/COMP4537/labs/4/api/definitions/";
         let word = event.target.value.toLocaleLowerCase();
         let param = `?word=${word}`
         const url = endPointRoot + param;
