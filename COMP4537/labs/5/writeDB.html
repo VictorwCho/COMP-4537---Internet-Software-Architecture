@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Write to Database</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+  </head>
+  <body>
+    <div id="mainDiv">
+      <h1>ENTER NAME AND SCORE</h1>
+      <label for="nameInput">Name: </label>
+      <input type="text" id="nameInput" name="name" />
+      <br><br>
+
+      <label for="scoreInput">Score: </label>
+      <input type="text" id="scoreInput" name="score" />
+      <br><br>
+
+      <button type="button" onClick="post()">store in DB</button>
+      <br><br>
+      <div id="demo">
+
+      </div>
+    </div>
+
+    <script>
+      const xhttp = new XMLHttpRequest();
+      const endPointRoot = "http://localhost:8888/";
+      let paramsJson = {name: "RANDY", score: 222};
+      let resource = "comp4537_lab5/players/";
+      const url =  endPointRoot + resource;
+      const POST = "POST";
+
+      function post() {
+        xhttp.open(POST, url, true);
+        xhttp.setRequestHeader("Content-type", "application/json; charset=utf-8");
+        xhttp.send(JSON.stringify(paramsJson));
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("demo").innerHTML =
+              this.responseText;
+          };
+        };
+
+      };
+
+    </script>
+  </body>
+</html>
