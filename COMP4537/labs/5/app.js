@@ -1,6 +1,6 @@
 const express = require('express');
 const mysql = require('mysql');
-const PORT = process.env.PORT || 8888;
+const PORT = process.env.port || 8888;
 const app = express();
 
 const connection = mysql.createConnection({
@@ -17,7 +17,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.post('players/', (req, res) => {
+app.post('/players', (req, res) => {
   let body = '';
 
   req.on('data', function (chunk) {
@@ -26,8 +26,9 @@ app.post('players/', (req, res) => {
     }
   });
   req.on('end', function () {
-    const sqlQuery = `INSERT INTO 'players' ('name', 'score') VALUES (${JSON.parse(body).name}, ${JSON.parse(body).score})`;
+    const sqlQuery = `INSERT INTO players (name, score) VALUES ('${JSON.parse(body).name}', ${JSON.parse(body).score})`;
     connection.query(sqlQuery, (sqlErr, sqlRes) => {
+      console.log(sqlErr, sqlRes);
       console.log(sqlRes.message);
       if (sqlErr) {
         res.status(404).send('Error in the SQL Request');
@@ -35,6 +36,13 @@ app.post('players/', (req, res) => {
       }
       res.status(200).send(sqlRes.message);
     });
+  });
+});
+
+app.get('/players', (req, res) => {
+  connection.query('SELECT * FROM players', (err, result) => {
+    if (err) throw err;
+    res.send("Here's everything in the database named players: " + JSON.stringify(result));
   });
 });
 
