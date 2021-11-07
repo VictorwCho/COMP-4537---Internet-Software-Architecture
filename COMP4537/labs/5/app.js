@@ -5,9 +5,9 @@ const app = express();
 
 const connection = mysql.createConnection({
   host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'comp4537_lab5',
+  user: 'robertwi_root',
+  password: 'comp4537lab5',
+  database: 'robertwi_comp4537_lab5',
 });
 
 app.use(function (req, res, next) {
@@ -17,7 +17,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.post('/players', (req, res) => {
+app.post('/comp4537/labs/5/api', (req, res) => {
   let body = '';
 
   req.on('data', function (chunk) {
@@ -39,7 +39,7 @@ app.post('/players', (req, res) => {
   });
 });
 
-app.get('/players', (req, res) => {
+app.get('/comp4537/labs/5/api', (req, res) => {
   connection.query('SELECT * FROM players', (err, result) => {
     if (err) throw err;
     res.send("Here's everything in the database named players: " + JSON.stringify(result));

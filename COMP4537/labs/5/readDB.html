@@ -15,7 +15,7 @@
 
     <div id = "get_div">
 
-      <button type="button" onClick="getAll()">store in DB</button>
+      <button type="button" onClick="getAll()">Read in DB</button>
       <br><br>
       <div id="get_info_div">
 
@@ -26,8 +26,8 @@
     <script>
       function getAll() {
       const xhttp = new XMLHttpRequest();
-      const endPointRoot = "http://localhost:8888";
-      let resource = "/players";
+      const endPointRoot = "http://robertwilson875.com/";
+      let resource = "/comp4537/labs/5/api";
       const url =  endPointRoot + resource;
       const GET = "GET";
 
